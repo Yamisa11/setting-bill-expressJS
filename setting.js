@@ -26,6 +26,7 @@ export default function SettingsBill() {
 
     function recordAction(action) {
 
+      if(!hasReachedCriticalLevel()){
         let cost = 0;
         if (action === 'sms'){
             cost = smsCost;
@@ -39,6 +40,7 @@ export default function SettingsBill() {
             cost,
             timestamp: new Date()
         });
+      }
     }
 
     function actions(){
