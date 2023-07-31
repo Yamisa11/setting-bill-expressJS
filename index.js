@@ -2,8 +2,9 @@ import express from 'express'
 import { engine } from 'express-handlebars';
 import bodyParser from 'body-parser'
 import SettingsBill from './setting.js';
+import moment from 'moment';
+
 const app = express()
-var  settingsBill = SettingsBill()
 
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
@@ -13,7 +14,8 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
-
+var  settingsBill = SettingsBill()
+moment().format();
 app.get('/', function(req,res){
     res.render("index",{
         updateSettings: settingsBill.getSettings(),
@@ -39,14 +41,26 @@ app.post('/action', function(req,res){
     res.redirect('/')
 })
 app.get('/actions', function(req,res){
+    
+    
+    for (let i = 0; i < settingsBill.actions().length; i++) {
+        settingsBill.actions()[i].timestamp = moment().fromNow();
+    }
+
     res.render('actions', {actions: settingsBill.actions()})
 })
 app.get('/actions/:actionType', function(req,res){
-const actionType = req.params.actionType
-res.render('actions', {actions: settingsBill.actionsFor(actionType)})
+const actionsType = req.params.actionType;
+
+let actionss = settingsBill.actionsFor(actionsType);
+
+for (let i = 0; i < actionss.length; i++) {
+    actionss[i].timestamp = moment().fromNow();
+}
+res.render('actions', {actions: actionss})
 })
 
-const PORT = process.env.PORT || 3011
+const PORT = process.env.PORT || 3012
 app.listen(PORT, function(){
     console.log("App started at port : " + PORT )
 })

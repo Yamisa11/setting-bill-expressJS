@@ -1,5 +1,4 @@
-import moment from 'moment';
-moment().format();
+
 export default function SettingsBill() {
 
     let smsCost;
@@ -40,7 +39,7 @@ export default function SettingsBill() {
         actionList.push({
             type: action,
             cost,
-            timestamp: moment().fromNow()
+            timestamp: new Date()
         });
       }
     }
@@ -98,10 +97,10 @@ export default function SettingsBill() {
         return {
             smsTotal,
             callTotal,
-            grandTotal : grandTotal()
+            grandTotal : grandTotal().toFixed(2)
         }
     }
-
+6
     function hasReachedWarningLevel(){
         const total = grandTotal();
         const reachedWarningLevel = total >= warningLevel 
