@@ -41,13 +41,14 @@ app.post('/action', function(req,res){
     res.redirect('/')
 })
 app.get('/actions', function(req,res){
+    let actionss = settingsBill.actions()
     
-    
-    for (let i = 0; i < settingsBill.actions().length; i++) {
-        settingsBill.actions()[i].timestamp = moment().fromNow();
+    for (let i = 0; i < actionss.length; i++) {
+      
+        actionss[i].timestamp = moment(actionss[i].timestamp).fromNow();
     }
 
-    res.render('actions', {actions: settingsBill.actions()})
+    res.render('actions', {actions: actionss})
 })
 app.get('/actions/:actionType', function(req,res){
 const actionsType = req.params.actionType;
@@ -55,7 +56,8 @@ const actionsType = req.params.actionType;
 let actionss = settingsBill.actionsFor(actionsType);
 
 for (let i = 0; i < actionss.length; i++) {
-    actionss[i].timestamp = moment().fromNow();
+    
+    actionss[i].timestamp = moment(actionss[i].timestamp).fromNow();
 }
 res.render('actions', {actions: actionss})
 })
