@@ -41,25 +41,30 @@ app.post('/action', function(req,res){
     res.redirect('/')
 })
 app.get('/actions', function(req,res){
-    let actionss = settingsBill.actions()
+    const newObject = settingsBill.actions().map(item => {
+        return {
+          type: item.type,
+          cost: item.cost,
+          timestamp: moment(item.timestamp).fromNow()
+        }
+    })
     
-    for (let i = 0; i < actionss.length; i++) {
-      
-        actionss[i].timestamp = moment(actionss[i].timestamp).fromNow();
-    }
-
-    res.render('actions', {actions: actionss})
+    res.render('actions', {actions: newObject})
 })
 app.get('/actions/:actionType', function(req,res){
 const actionsType = req.params.actionType;
 
 let actionss = settingsBill.actionsFor(actionsType);
 
-for (let i = 0; i < actionss.length; i++) {
-    
-    actionss[i].timestamp = moment(actionss[i].timestamp).fromNow();
-}
-res.render('actions', {actions: actionss})
+const newObj = actionss.map(item => {
+    return{
+        type: item.type,
+        cost: item.cost,
+        timestamp: moment(item.timestamp).fromNow()  
+    }
+})
+
+res.render('actions', {actions: newObj})
 })
 
 const PORT = process.env.PORT || 3012
