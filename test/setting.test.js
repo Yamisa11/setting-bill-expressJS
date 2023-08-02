@@ -29,7 +29,7 @@ describe('settings-bill', function(){
 
     });
 
-    it('should calculate the right totals', function(){
+    it('should calculate the right totals all  3 totals', function(){
         const settingsBill = SettingsBill();
         settingsBill.setSettings({
             smsCost: 2.35,
